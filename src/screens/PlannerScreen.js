@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,35 @@ import {
   FlatList
 } from "react-native";
 
+import MoodSelector from "../components/MoodSelector";
+
+import {
+  saveMood,
+  getMood
+} from "../storage/storage";
+
 export default function PlannerScreen() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [mood, setMood] = useState("");
+
+  useEffect(() => {
+    async function loadMood() {
+      const savedMood = await getMood();
+
+      if (savedMood) {
+        setMood(savedMood);
+      }
+    }
+
+    loadMood();
+  }, []);
+
+  async function selectMood(selectedMood) {
+    setMood(selectedMood);
+
+    await saveMood(selectedMood);
+  }
 
   function addTask() {
     if (!task.trim()) return;
@@ -36,6 +62,20 @@ export default function PlannerScreen() {
       >
         Your Planner v1.1 RC1
       </Text>
+
+      <Text
+        style={{
+          fontSize: 20,
+          marginBottom: 10
+        }}
+      >
+        Today's Mood
+      </Text>
+
+      <MoodSelector
+        selectedMood={mood}
+        onSelectMood={selectMood}
+      />
 
       <TextInput
         placeholder="Add a task..."
