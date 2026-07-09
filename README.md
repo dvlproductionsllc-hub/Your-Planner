@@ -5,7 +5,7 @@ A productivity planner built with Expo and React Native.
 ## Features
 
 - Task management
-- Mood tracking (coming next)
+- Mood tracking 
 - Productivity analytics (coming next)
 - Google Calendar sync (coming next)
 - Outlook sync (coming next)
